@@ -2,7 +2,7 @@ package com.myproject.Osahaneat.Entity;
 
 import jakarta.persistence.*;
 
-@Entity(name = "RatingRestaurant")
+@Entity(name = "rating_restaurant")
 public class RatingRestaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

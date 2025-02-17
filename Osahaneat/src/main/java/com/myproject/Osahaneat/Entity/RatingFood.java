@@ -5,7 +5,7 @@ import org.apache.catalina.User;
 
 import java.util.Set;
 
-@Entity(name = "RatingFood")
+@Entity(name = "rating_food")
 class RatingFood {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
