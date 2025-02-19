@@ -48,10 +48,11 @@ public class CustomFilterSecurity {
         http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Cập nhật ở đây
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login/**").permitAll()
-                        .requestMatchers("/user/**").authenticated()
+                        .requestMatchers("/login/**", "/restaurant/file/**").permitAll()
+                        .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults());
+                .formLogin(AbstractHttpConfigurer::disable)  // Tắt trang login mặc định
+                .httpBasic(AbstractHttpConfigurer::disable);
 
         http.addFilterBefore(customJwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
