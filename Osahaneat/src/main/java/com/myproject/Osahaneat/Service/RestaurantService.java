@@ -43,7 +43,7 @@ public class RestaurantService implements RestaurantServiceImp {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
                 Date date = simpleDateFormat.parse(openDate);
                 restaurant.setOpenDate(date);
-                Restaurant restaurant1 = restaurantRepository.save(restaurant);
+                restaurantRepository.save(restaurant);
                 isInsertSuccess = true;
             }
         } catch (Exception e) {

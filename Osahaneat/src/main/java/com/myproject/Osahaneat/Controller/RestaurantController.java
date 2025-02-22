@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/restaurant")
 public class RestaurantController {
@@ -42,7 +43,7 @@ public class RestaurantController {
     public ResponseEntity<?> getRestaurant(){
         ResponseData responseData = new ResponseData();
         responseData.setData(restaurantServiceImp.getHomePageRestaurant());
-        return new ResponseEntity<>(responseData.getData(), HttpStatus.OK);
+        return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
 
     @GetMapping("/file/{filename:.+}")

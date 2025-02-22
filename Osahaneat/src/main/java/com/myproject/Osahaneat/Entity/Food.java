@@ -22,6 +22,17 @@ public class Food {
     @Column(name = "price")
     private double price;
 
+    @Column(name = "is_freeship")
+    private boolean isFreeship;
+
+    public boolean isFreeship() {
+        return isFreeship;
+    }
+
+    public void setFreeship(boolean freeship) {
+        isFreeship = freeship;
+    }
+
     @ManyToOne
     @JoinColumn(name = "cate_id")
     private Category category;

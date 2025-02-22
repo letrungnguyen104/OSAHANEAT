@@ -46,6 +46,7 @@ public class CustomFilterSecurity {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults()) // Cho phép cors
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Cập nhật ở đây
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login/**", "/restaurant/file/**").permitAll()
