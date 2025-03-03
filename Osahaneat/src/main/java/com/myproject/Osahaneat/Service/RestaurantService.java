@@ -1,22 +1,21 @@
 package com.myproject.Osahaneat.Service;
 
+import com.myproject.Osahaneat.Dto.CategoryDto;
+import com.myproject.Osahaneat.Dto.MenuDto;
 import com.myproject.Osahaneat.Dto.RestaurantDto;
-import com.myproject.Osahaneat.Entity.RatingRestaurant;
-import com.myproject.Osahaneat.Entity.Restaurant;
+import com.myproject.Osahaneat.Entity.*;
 import com.myproject.Osahaneat.Repository.RestaurantRepository;
 import com.myproject.Osahaneat.Service.Imp.FileServiceImp;
 import com.myproject.Osahaneat.Service.Imp.RestaurantServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class RestaurantService implements RestaurantServiceImp {
@@ -75,5 +74,40 @@ public class RestaurantService implements RestaurantServiceImp {
             totalPoint += ratingRestaurant.getRatePoint();
         }
         return totalPoint / list.size();
+    }
+
+    @Override
+    public RestaurantDto getDetailRestaurant(int id) {
+        Optional<Restaurant> restaurant = restaurantRepository.findById(id);
+        RestaurantDto restaurantDto = new RestaurantDto();
+        if(restaurant.isPresent()){
+            List<CategoryDto> listCate = new ArrayList<>();
+            restaurantDto.setImage(restaurant.get().getImage());
+            restaurantDto.setTitle(restaurant.get().getTitle());
+            restaurantDto.setSubtitle(restaurant.get().getSubtitle());
+            restaurantDto.setRating(calculatorRating(restaurant.get().getListRatingRestaurant()));
+            restaurantDto.setFreeship(restaurant.get().isFreeship());
+            restaurantDto.setOpenDate(restaurant.get().getOpenDate());
+
+            //Duyệt qua MenuRestaurant để lấy từng Category
+            for(MenuRestaurant menuRestaurant : restaurant.get().getListMenuRestaurant()) {
+                CategoryDto categoryDto = new CategoryDto();
+                categoryDto.setName(menuRestaurant.getCategory().getNameCate());
+                List<MenuDto> listMenuDto = new ArrayList<>();
+                //Mỗi category sẽ có một List<Food> nên duyệt qua List<Food> để gán lại cho từng MenuDto
+                for(Food food : menuRestaurant.getCategory().getListFood()){
+                    MenuDto menuDto = new MenuDto();
+                    menuDto.setImage(food.getImage());
+                    menuDto.setTitle(food.getTitle());
+                    menuDto.setFreeship(food.isFreeship());
+                    listMenuDto.add(menuDto);
+                }
+                categoryDto.setListMenuDto(listMenuDto);
+                listCate.add(categoryDto);
+            }
+
+            restaurantDto.setListCate(listCate);
+        }
+        return restaurantDto;
     }
 }

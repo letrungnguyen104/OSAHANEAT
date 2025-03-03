@@ -37,4 +37,11 @@ public class MenuController {
         responseData.setData(isSuccess);
         return new ResponseEntity<>(responseData, HttpStatus.OK);
     }
+
+    @GetMapping("/file/{filename:.+}")
+    public ResponseEntity<?> getFileMenu(@PathVariable String filename){
+        Resource resource = fileServiceImp.loadFile(filename);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"").body(resource);
+    }
 }

@@ -1,11 +1,32 @@
 package com.myproject.Osahaneat.Dto;
 
+import java.util.Date;
+import java.util.List;
+
 public class RestaurantDto {
     private String image;
     private String title;
     private double rating;
     private String subtitle;
     private boolean isFreeship;
+    private Date openDate;
+    List<CategoryDto> listCate;
+
+    public Date getOpenDate() {
+        return openDate;
+    }
+
+    public void setOpenDate(Date openDate) {
+        this.openDate = openDate;
+    }
+
+    public List<CategoryDto> getListCate() {
+        return listCate;
+    }
+
+    public void setListCate(List<CategoryDto> listCate) {
+        this.listCate = listCate;
+    }
 
     public String getImage() {
         return image;
